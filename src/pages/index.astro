@@ -1,0 +1,55 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+---
+
+<Layout title="Astro Template">
+  <Header />
+  <main class="mx-auto max-w-4xl px-4 py-16">
+    <section class="py-16 text-center">
+      <h1 class="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">
+        Welcome to
+        <span class="text-primary">Astro</span>
+      </h1>
+      <p class="mx-auto mb-8 max-w-lg text-lg text-muted-foreground">
+        A content-driven web framework for building fast, modern websites.
+        Edit <code class="rounded bg-muted px-1.5 py-0.5 text-sm">src/pages/index.astro</code> to get started.
+      </p>
+      <div class="flex justify-center gap-4">
+        <a
+          href="https://astro.build/docs"
+          class="rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+        >
+          Read the docs
+        </a>
+        <a
+          href="https://astro.build/chat"
+          class="rounded-lg border border-border bg-card px-5 py-2.5 text-sm font-medium text-card-foreground transition-colors hover:bg-secondary"
+        >
+          Join the community
+        </a>
+      </div>
+    </section>
+
+    <section class="grid gap-6 sm:grid-cols-3">
+      <article class="rounded-xl border border-border bg-card p-6">
+        <h2 class="mb-2 text-lg font-semibold">Content Collections</h2>
+        <p class="text-sm text-muted-foreground">
+          Organize and validate your Markdown, MDX, or JSON content with type-safe schemas.
+        </p>
+      </article>
+      <article class="rounded-xl border border-border bg-card p-6">
+        <h2 class="mb-2 text-lg font-semibold">Server Islands</h2>
+        <p class="text-sm text-muted-foreground">
+          Defer dynamic content to a separate endpoint for partial hydration and faster loads.
+        </p>
+      </article>
+      <article class="rounded-xl border border-border bg-card p-6">
+        <h2 class="mb-2 text-lg font-semibold">View Transitions</h2>
+        <p class="text-sm text-muted-foreground">
+          Smooth, animated page transitions with zero configuration using the browser View Transitions API.
+        </p>
+      </article>
+    </section>
+  </main>
+</Layout>

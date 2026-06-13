@@ -1,0 +1,25 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+---
+
+<Layout title="About | Astro Template">
+  <Header />
+  <main class="mx-auto max-w-4xl px-4 py-16">
+    <h1 class="mb-6 text-3xl font-bold tracking-tight">About</h1>
+    <div class="prose prose-gray max-w-none">
+      <p class="text-lg text-muted-foreground">
+        This is an Astro template for Dyad. It demonstrates the core features of the framework:
+        file-based routing, component architecture, Tailwind CSS v4 styling, and the island architecture pattern.
+      </p>
+      <h2 class="mt-8 text-xl font-semibold">Key Features</h2>
+      <ul class="mt-4 space-y-2 text-muted-foreground">
+        <li><strong class="text-foreground">Zero JS by default</strong> — Pages are rendered to static HTML with no JavaScript overhead.</li>
+        <li><strong class="text-foreground">Island Architecture</strong> — Opt-in interactivity with framework components.</li>
+        <li><strong class="text-foreground">Content Collections</strong> — Type-safe content management with Zod schemas.</li>
+        <li><strong class="text-foreground">View Transitions</strong> — Smooth, animated page navigation.</li>
+        <li><strong class="text-foreground">Tailwind CSS v4</strong> — Modern utility-first styling with CSS variables.</li>
+      </ul>
+    </div>
+  </main>
+</Layout>
