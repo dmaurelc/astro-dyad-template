@@ -1,0 +1,50 @@
+---
+/**
+ * Accessible theme toggle — a small Astro island.
+ * Markup-only component; behavior lives in `theme-toggle.ts`.
+ * Sun/Moon icons are inline SVG (no external icon dependency, no FOUC).
+ */
+---
+
+<button
+  type="button"
+  data-theme-toggle
+  aria-pressed="false"
+  aria-label="Switch to dark theme"
+  title="Dark mode"
+  class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background text-foreground transition-colors hover:bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+>
+  {/* Sun — shown in dark mode (action: switch to light) */}
+  <svg
+    data-icon-sun
+    class="hidden h-4 w-4"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.75"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+  </svg>
+  {/* Moon — shown in light mode (action: switch to dark) */}
+  <svg
+    data-icon-moon
+    class="h-4 w-4"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.75"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+  </svg>
+</button>
+
+<script>
+  import "../components/theme-toggle";
+</script>
