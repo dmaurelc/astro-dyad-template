@@ -2,8 +2,10 @@
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
+import JsonLd from "../../components/JsonLd.astro";
 import { articles, getArticleBySlug } from "../../lib/articles";
 import { formatDate } from "../../lib/utils";
+import { buildArticleJsonLd } from "../../lib/seo";
 
 export function getStaticPaths() {
   return articles.map((article) => ({
@@ -27,9 +29,26 @@ const prev = idx > 0 ? sorted[idx - 1] : undefined;
 const next = idx < sorted.length - 1 ? sorted[idx + 1] : undefined;
 
 const paragraphs = article.body.split("\n\n");
+
+const articleUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const breadcrumbs = [
+  { name: "Home", href: "/" },
+  { name: "Journal", href: "/blog" },
+  { name: article.title, href: Astro.url.pathname },
+];
 ---
 
-<Layout title={`${article.title} — Astro Template`} description={article.excerpt}>
+<Layout
+  title={`${article.title} — Astro Template`}
+  description={article.excerpt}
+  image={`/og/${article.slug}.png`}
+  type="article"
+  publishedTime={article.publishedAt}
+  author={article.author}
+  tags={article.tags}
+  breadcrumbs={breadcrumbs}
+>
+  <JsonLd slot="jsonld" data={buildArticleJsonLd(article, articleUrl)} />
   <Header />
 
   <main id="main" class="mx-auto max-w-3xl px-6 pb-24 pt-12 sm:px-8 sm:pt-16">

@@ -1,0 +1,53 @@
+---
+import Seo from "./Seo.astro";
+import JsonLd from "./JsonLd.astro";
+import {
+  buildWebsiteJsonLd,
+  buildOrganizationJsonLd,
+  buildBreadcrumbJsonLd,
+  type Breadcrumb,
+} from "../lib/seo";
+
+/**
+ * <head> metadata. Receives the full SEO prop shape from Layout and:
+ *   1. Emits OG / Twitter / canonical via <Seo />.
+ *   2. Renders site-wide JSON-LD (WebSite + Organization) by default.
+ *   3. Opt-in BreadcrumbList JSON-LD when `breadcrumbs` is passed.
+ *
+ * Pages can also inject page-level JSON-LD (e.g. BlogPosting on articles)
+ * via the named `jsonld` slot — Layout forwards the slot to here.
+ */
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "article";
+  publishedTime?: Date;
+  author?: string;
+  tags?: string[];
+  noindex?: boolean;
+  breadcrumbs?: Breadcrumb[];
+}
+
+const props = Astro.props;
+---
+
+<Seo
+  title={props.title}
+  description={props.description}
+  image={props.image}
+  type={props.type}
+  publishedTime={props.publishedTime}
+  author={props.author}
+  tags={props.tags}
+  noindex={props.noindex}
+/>
+
+<JsonLd data={buildWebsiteJsonLd()} />
+<JsonLd data={buildOrganizationJsonLd()} />
+{props.breadcrumbs && props.breadcrumbs.length > 0 && (
+  <JsonLd data={buildBreadcrumbJsonLd(props.breadcrumbs)} />
+)}
+
+<link rel="sitemap" href="/sitemap-index.xml" />

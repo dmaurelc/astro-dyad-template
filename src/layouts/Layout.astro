@@ -1,14 +1,44 @@
 ---
 import "../styles/global.css";
+import Head from "../components/Head.astro";
+
+/**
+ * Shared page shell.
+ *
+ * Owns structural concerns (<html>, <body>, skip link, theme pre-paint).
+ * Forwards SEO concerns to <Head />, which wraps <Seo /> + JSON-LD.
+ *
+ * Pages can opt in to article metadata and per-page structured data via
+ * the named `jsonld` slot:
+ *
+ *   <Layout title="…" type="article" …>
+ *     <JsonLd slot="jsonld" data={buildArticleJsonLd(…)} />
+ *     <article>…</article>
+ *   </Layout>
+ */
 
 export interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  type?: "website" | "article";
+  publishedTime?: Date;
+  author?: string;
+  tags?: string[];
+  noindex?: boolean;
+  breadcrumbs?: { name: string; href: string }[];
 }
 
 const {
   title = "Astro Template",
   description = "An editorial Astro template with Tailwind v4 and dark mode.",
+  image,
+  type,
+  publishedTime,
+  author,
+  tags,
+  noindex,
+  breadcrumbs,
 } = Astro.props;
 ---
 
@@ -17,9 +47,6 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title}</title>
 
     {/* Editorial typefaces — variable fonts for crisp display rendering */}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -42,6 +69,20 @@ const {
         } catch (e) {}
       })();
     </script>
+
+    <Head
+      title={title}
+      description={description}
+      image={image}
+      type={type}
+      publishedTime={publishedTime}
+      author={author}
+      tags={tags}
+      noindex={noindex}
+      breadcrumbs={breadcrumbs}
+>
+      <slot name="jsonld" slot="jsonld" />
+    </Head>
   </head>
   <body class="min-h-[100dvh] bg-background text-foreground">
     <a
