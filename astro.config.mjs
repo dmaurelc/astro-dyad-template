@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
+import sitemap from "@astrojs/sitemap";
 
 // Keep `site` in sync with SITE.url in src/lib/site.ts — Astro config
 // cannot import TS, so the URL is duplicated here. Comment at SITE.url
@@ -9,4 +10,11 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  integrations: [
+    sitemap({
+      filter: (page) => !page.includes("/404") && !page.includes("/draft/"),
+      changefreq: "weekly",
+      priority: 0.7,
+    }),
+  ],
 });
