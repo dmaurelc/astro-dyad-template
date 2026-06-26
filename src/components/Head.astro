@@ -1,7 +1,6 @@
 ---
 import Seo from "./Seo.astro";
 import JsonLd from "./JsonLd.astro";
-import { SITE } from "../lib/site";
 import {
   buildWebsiteJsonLd,
   buildOrganizationJsonLd,
@@ -51,11 +50,4 @@ const props = Astro.props;
   <JsonLd data={buildBreadcrumbJsonLd(props.breadcrumbs)} />
 )}
 
-<!-- Sitemap discovery for crawlers -->
 <link rel="sitemap" href="/sitemap-index.xml" />
-
-<!-- Default <html> theme hint — overridden by theme-toggle.ts on first paint -->
-<meta name="theme-color" content="#0b0b0f" />
-
-<!-- Suppress unused-import linter complaints while keeping SITE imported for future use -->
-<meta data-site={SITE.name} />
