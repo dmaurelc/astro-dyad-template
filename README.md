@@ -1,47 +1,91 @@
-This is an [Astro](https://astro.build) project bootstrapped as a template for [Dyad](https://www.dyad.sh).
+# Astro Dyad Template
+
+An [Astro](https://astro.build) editorial-grade starter tailored for [Dyad](https://www.dyad.sh). Built with Astro 7, Tailwind v4, and a type-safe content collection. Ships with a home page, journal (blog), playground, components showcase, and a 404 — all wired to a shared `Layout` with header, footer, mobile menu, and dark-mode toggle.
+
+![Home preview](./docs/screenshot-home.png)
+
+## Preview
+
+| Home                                | Journal                                | Playground                                      |
+| ----------------------------------- | -------------------------------------- | ----------------------------------------------- |
+| ![Home](./docs/screenshot-home.png) | ![Journal](./docs/screenshot-blog.png) | ![Playground](./docs/screenshot-playground.png) |
+
+## Stack
+
+- **Astro 7** — file-based routing, view transitions, server islands
+- **Tailwind CSS v4** — `@theme` design tokens, Vite plugin (no PostCSS config)
+- **TypeScript 6** — strict mode
+- **pnpm** — package manager
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:4321](http://localhost:4321) with your browser to see the result.
+Open [http://localhost:4321](http://localhost:4321) to see the site.
 
-You can start editing the page by modifying `src/pages/index.astro`. The page auto-updates as you edit the file.
+Other scripts:
+
+```bash
+pnpm build      # production build to ./dist
+pnpm preview    # preview the production build locally
+```
 
 ## Project Structure
 
 ```
 src/
-├── components/     # Reusable Astro components
-│   └── Header.astro
-├── layouts/        # Page layouts
-│   └── Layout.astro
-├── pages/          # File-based routing
-│   └── index.astro
-└── styles/         # Global styles
-    └── global.css
+├── components/
+│   ├── Header.astro        # Top nav with theme + mobile-menu triggers
+│   ├── Footer.astro        # Site footer
+│   ├── MobileMenu.astro    # Slide-in nav for small screens
+│   ├── ThemeToggle.astro   # Light / dark toggle
+│   ├── counter.ts          # Tiny client-side counter island
+│   ├── mobile-menu.ts      # Mobile menu controller
+│   └── theme-toggle.ts     # Theme persistence (localStorage + system)
+├── layouts/
+│   └── Layout.astro        # Shared shell — <html>, meta, header, footer
+├── lib/
+│   ├── articles.ts         # Content collection helpers (sort, filter)
+│   └── utils.ts            # `formatDate` and shared utilities
+├── pages/
+│   ├── index.astro         # Home
+│   ├── about.astro         # About
+│   ├── blog.astro          # Journal index
+│   ├── blog/
+│   │   └── [slug].astro    # Dynamic article route
+│   ├── components.astro    # Component showcase
+│   ├── playground.astro    # Interactive playground
+│   └── 404.astro           # Not-found page
+├── content/                # Content collections (Markdown / MDX)
+└── styles/
+    └── global.css          # Tailwind v4 entry + @theme tokens
+public/                     # Static assets
+astro.config.mjs            # Astro + Tailwind Vite plugin
+tsconfig.json               # TS strict, Astro paths
 ```
+
+## Features
+
+- **Dark mode** — persisted via `localStorage`, respects `prefers-color-scheme` on first visit, no FOUC.
+- **Mobile menu** — slide-in drawer with focus trap and `Escape` to close.
+- **Type-safe content** — Astro content collections validate frontmatter with Zod.
+- **View transitions** — enabled in `Layout.astro` for SPA-feel navigation.
+- **Component showcase** — `/components` renders every primitive in isolation.
+- **Playground** — `/playground` for tweaking tokens and ad-hoc UI experiments.
 
 ## Learn More
 
-- [Astro Documentation](https://astro.build/docs) - learn about Astro features and API.
-- [Astro Content Collections](https://astro.build/docs/guides/content-collections) - type-safe content management.
-- [Astro View Transitions](https://astro.build/docs/guides/view-transitions) - smooth page transitions.
-- [Tailwind CSS v4 Documentation](https://tailwindcss.com/docs) - utility-first CSS framework.
+- [Astro Documentation](https://astro.build/docs) — features and API.
+- [Astro Content Collections](https://astro.build/docs/guides/content-collections) — type-safe content.
+- [Astro View Transitions](https://astro.build/docs/guides/view-transitions) — cross-page animations.
+- [Tailwind CSS v4](https://tailwindcss.com/docs) — `@theme` design tokens.
 
 ## Deploy
 
-Astro sites can be deployed to any static host or serverless platform:
+Astro builds to static HTML — drop `dist/` on any host or use an adapter:
 
 - [Deploy to Vercel](https://docs.astro.build/en/guides/deploy/vercel/)
 - [Deploy to Netlify](https://docs.astro.build/en/guides/deploy/netlify/)
