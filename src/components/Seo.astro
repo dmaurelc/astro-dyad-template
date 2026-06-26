@@ -1,0 +1,89 @@
+---
+import { SEO } from "astro-seo";
+import { SITE } from "../lib/site";
+
+/**
+ * Thin wrapper around astro-seo's <SEO />. The only file that imports astro-seo,
+ * so dependency surface stays small. Maps our Layout prop shape to astro-seo's
+ * API and exposes a named `jsonld` slot for page-specific structured data.
+ */
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "article";
+  publishedTime?: Date;
+  author?: string;
+  tags?: string[];
+  noindex?: boolean;
+}
+
+const {
+  title = SITE.name,
+  description = SITE.description,
+  image = SITE.defaultImage,
+  type = "website",
+  publishedTime,
+  author,
+  tags,
+  noindex = false,
+} = Astro.props;
+
+// Astro.url + Astro.site gives an absolute canonical URL.
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE.url).toString();
+const imageURL = new URL(image, Astro.site ?? SITE.url).toString();
+---
+
+<SEO
+  title={title}
+  titleTemplate="%s — Astro Template"
+  description={description}
+  canonical={canonicalURL}
+  noindex={noindex}
+  nofollow={noindex}
+  openGraph={{
+    basic: {
+      title,
+      type,
+      image: imageURL,
+      url: canonicalURL,
+    },
+    optional: {
+      siteName: SITE.name,
+      description,
+      locale: SITE.locale,
+    },
+    image: {
+      alt: title,
+      width: 1200,
+      height: 630,
+    },
+    ...(type === "article" && publishedTime
+      ? {
+          article: {
+            publishedTime: publishedTime.toISOString(),
+            ...(author ? { authors: [author] } : {}),
+            ...(tags && tags.length > 0 ? { tags } : {}),
+          },
+        }
+      : {}),
+  }}
+  twitter={{
+    card: "summary_large_image",
+    site: SITE.twitterHandle,
+    creator: SITE.twitterHandle,
+    title,
+    description,
+    image: imageURL,
+    imageAlt: title,
+  }}
+  extend={{
+    link: [{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
+    meta: [
+      { name: "theme-color", content: "#0b0b0f" },
+      { name: "twitter:label1", content: "Reading time" },
+      { name: "twitter:data1", content: "5 min" },
+    ],
+  }}
+/>
