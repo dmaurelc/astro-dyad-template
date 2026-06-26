@@ -1,10 +1,15 @@
 ---
+import "../styles/global.css";
+
 export interface Props {
   title?: string;
   description?: string;
 }
 
-const { title = "Astro Template", description = "Built with Astro" } = Astro.props;
+const {
+  title = "Astro Template",
+  description = "An editorial Astro template with Tailwind v4 and dark mode.",
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -15,8 +20,36 @@ const { title = "Astro Template", description = "Built with Astro" } = Astro.pro
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+
+    {/* Editorial typefaces — variable fonts for crisp display rendering */}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Geist:wght@400..600&family=JetBrains+Mono:wght@400..500&display=swap"
+    />
+
+    {/* Pre-paint theme: prevents FOUC by setting .dark on <html> before stylesheet parses */}
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          var prefersDark =
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches;
+          var theme = stored ?? (prefersDark ? "dark" : "light");
+          if (theme === "dark") document.documentElement.classList.add("dark");
+        } catch (e) {}
+      })();
+    </script>
   </head>
-  <body class="min-h-screen bg-background text-foreground antialiased">
+  <body class="min-h-[100dvh] bg-background text-foreground">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-foreground focus:px-3 focus:py-2 focus:text-sm focus:text-background"
+    >
+      Skip to content
+    </a>
     <slot />
   </body>
 </html>

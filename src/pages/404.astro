@@ -1,0 +1,44 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout title="404 — Page not found" description="The page you requested does not exist.">
+  <Header />
+
+  <main
+    id="main"
+    class="mx-auto flex min-h-[calc(100dvh-200px)] max-w-3xl flex-col justify-center px-6 py-20 sm:px-8"
+  >
+    <p class="eyebrow">Error 404</p>
+    <h1
+      class="mt-6 font-display text-[clamp(3.5rem,14vw,10rem)] leading-[0.9] tracking-[-0.04em] text-foreground"
+    >
+      Lost<br />
+      <span class="text-accent">in print.</span>
+    </h1>
+    <p class="mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground">
+      The page you tried to reach doesn't exist in this issue. It may have
+      been moved, retitled, or never made it past the editor's desk.
+    </p>
+
+    <div class="mt-10 flex flex-wrap items-center gap-3">
+      <a
+        href="/"
+        class="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+      >
+        Return to the index
+        <span aria-hidden="true">→</span>
+      </a>
+      <a
+        href="/blog"
+        class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
+      >
+        Read the journal
+      </a>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

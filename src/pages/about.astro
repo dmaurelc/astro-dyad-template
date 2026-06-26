@@ -1,25 +1,111 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+const principles = [
+  {
+    term: "Static first",
+    definition:
+      "Render to HTML at build time. Add JavaScript only where interaction earns its weight.",
+  },
+  {
+    term: "Islands by choice",
+    definition:
+      "Components opt into hydration with directives like client:load and client:visible. The rest stay inert.",
+  },
+  {
+    term: "Framework agnostic",
+    definition:
+      "Mix React, Vue, Svelte, Solid, and vanilla TS in the same project. Each island picks its own runtime.",
+  },
+  {
+    term: "Content as data",
+    definition:
+      "Markdown and MDX live alongside components, typed by Zod schemas, queryable via the content API.",
+  },
+  {
+    term: "Edge-ready",
+    definition:
+      "Deploy to any static host or serverless edge. Adapters for Vercel, Netlify, Cloudflare, and Node ship in-box.",
+  },
+];
+
+const stack = [
+  { name: "Astro 7", role: "meta-framework" },
+  { name: "Tailwind v4", role: "utility CSS" },
+  { name: "TypeScript", role: "type safety" },
+  { name: "Fraunces + Geist", role: "typography" },
+];
 ---
 
-<Layout title="About | Astro Template">
+<Layout title="About — Astro Template">
   <Header />
-  <main class="mx-auto max-w-4xl px-4 py-16">
-    <h1 class="mb-6 text-3xl font-bold tracking-tight">About</h1>
-    <div class="prose prose-gray max-w-none">
-      <p class="text-lg text-muted-foreground">
-        This is an Astro template for Dyad. It demonstrates the core features of the framework:
-        file-based routing, component architecture, Tailwind CSS v4 styling, and the island architecture pattern.
+
+  <main id="main" class="mx-auto max-w-6xl px-6 pb-24 pt-16 sm:px-8 sm:pt-24">
+    <section class="rise grid gap-12 pb-20 sm:grid-cols-12 sm:gap-16">
+      <header class="sm:col-span-4">
+        <p class="eyebrow">Colophon</p>
+        <h1 class="mt-6 font-display text-5xl leading-[1.05] tracking-[-0.025em]">
+          About this<br />template.
+        </h1>
+      </header>
+
+      <div class="sm:col-span-7 sm:col-start-6">
+        <p class="text-lg leading-relaxed text-muted-foreground">
+          A starter for editorial Astro sites with Tailwind v4, an opinionated
+          type system, and a dark mode that respects your OS preference. No
+          framework lock-in, no design debt, no 47-plugin shadcn clone.
+        </p>
+        <p class="mt-5 text-lg leading-relaxed text-muted-foreground">
+          Six demo pages walk through the patterns: a long-form article index,
+          a dynamic route, a component showcase, an interactive island, a
+          custom 404, and this one.
+        </p>
+      </div>
+    </section>
+
+    <section class="rise border-t border-border pt-16">
+      <h2 class="font-display text-3xl tracking-tight">Principles</h2>
+      <p class="mt-2 max-w-xl text-muted-foreground">
+        Five constraints that shaped the architecture.
       </p>
-      <h2 class="mt-8 text-xl font-semibold">Key Features</h2>
-      <ul class="mt-4 space-y-2 text-muted-foreground">
-        <li><strong class="text-foreground">Zero JS by default</strong> — Pages are rendered to static HTML with no JavaScript overhead.</li>
-        <li><strong class="text-foreground">Island Architecture</strong> — Opt-in interactivity with framework components.</li>
-        <li><strong class="text-foreground">Content Collections</strong> — Type-safe content management with Zod schemas.</li>
-        <li><strong class="text-foreground">View Transitions</strong> — Smooth, animated page navigation.</li>
-        <li><strong class="text-foreground">Tailwind CSS v4</strong> — Modern utility-first styling with CSS variables.</li>
+
+      <dl class="mt-12 divide-y divide-border border-y border-border">
+        {
+          principles.map((p, i) => (
+            <div class="grid gap-2 py-6 sm:grid-cols-12 sm:gap-8 sm:py-8">
+              <dt class="font-mono text-xs uppercase tracking-widest text-muted-foreground sm:col-span-1">
+                {String(i + 1).padStart(2, "0")}
+              </dt>
+              <dt class="font-display text-xl tracking-tight sm:col-span-3">
+                {p.term}
+              </dt>
+              <dd class="text-[15px] leading-relaxed text-muted-foreground sm:col-span-8">
+                {p.definition}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <section class="rise mt-24">
+      <h2 class="font-display text-3xl tracking-tight">The stack</h2>
+      <ul class="mt-10 flex flex-wrap gap-3">
+        {
+          stack.map((item) => (
+            <li class="inline-flex items-baseline gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm">
+              <span class="font-medium">{item.name}</span>
+              <span class="font-mono text-xs text-muted-foreground">
+                {item.role}
+              </span>
+            </li>
+          ))
+        }
       </ul>
-    </div>
+    </section>
   </main>
+
+  <Footer />
 </Layout>

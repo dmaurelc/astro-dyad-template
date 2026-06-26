@@ -1,0 +1,111 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { articles } from "../lib/articles";
+import { formatDate } from "../lib/utils";
+
+const sorted = [...articles].sort(
+  (a, b) => b.publishedAt.getTime() - a.publishedAt.getTime()
+);
+
+const [feature, ...rest] = sorted;
+---
+
+<Layout
+  title="Journal — Astro Template"
+  description="A demo blog index using Astro's content collections."
+>
+  <Header />
+
+  <main id="main" class="mx-auto max-w-6xl px-6 pb-24 pt-16 sm:px-8 sm:pt-24">
+    <header class="rise mb-16">
+      <p class="eyebrow">Journal</p>
+      <h1
+        class="mt-6 font-display text-[clamp(2.25rem,6vw,4.5rem)] leading-[1.02] tracking-[-0.03em]"
+      >
+        Notes from<br />the workshop.
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg text-muted-foreground">
+        A demonstration of dynamic routes and content collections. Articles
+        live in <code class="rounded bg-muted px-1.5 py-0.5 text-sm">src/lib/articles.ts</code>
+        and resolve at <code class="rounded bg-muted px-1.5 py-0.5 text-sm">/blog/[slug]</code>.
+      </p>
+    </header>
+
+    {/* Feature article — asymmetric, breaks the equal-card pattern */}
+    {
+      feature && (
+        <article class="rise grid gap-10 border-b border-border pb-16 sm:grid-cols-12 sm:gap-12">
+          <div class="sm:col-span-7">
+            <a href={`/blog/${feature.slug}`} class="group block">
+              <p class="eyebrow">Featured · {formatDate(feature.publishedAt)}</p>
+              <h2 class="mt-4 font-display text-4xl leading-[1.05] tracking-tight transition-colors group-hover:text-accent">
+                {feature.title}
+              </h2>
+              <p class="mt-5 text-lg leading-relaxed text-muted-foreground">
+                {feature.excerpt}
+              </p>
+              <p class="mt-6 inline-flex items-center gap-2 text-sm font-medium">
+                Read article
+                <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">
+                  →
+                </span>
+              </p>
+            </a>
+          </div>
+          <aside class="sm:col-span-4 sm:col-start-9 sm:pt-6">
+            <dl class="space-y-4 text-sm">
+              <div class="flex justify-between border-b border-border pb-3">
+                <dt class="text-muted-foreground">Reading time</dt>
+                <dd>{feature.readingMinutes} min</dd>
+              </div>
+              <div class="flex justify-between border-b border-border pb-3">
+                <dt class="text-muted-foreground">Author</dt>
+                <dd>{feature.author}</dd>
+              </div>
+              <div class="flex justify-between border-b border-border pb-3">
+                <dt class="text-muted-foreground">Tags</dt>
+                <dd class="text-right">{feature.tags.join(", ")}</dd>
+              </div>
+            </dl>
+          </aside>
+        </article>
+      )
+    }
+
+    {/* Rest of articles — 2-col asymmetric list with hairline rules */}
+    <section class="rise mt-16">
+      <h2 class="font-display text-2xl tracking-tight">More articles</h2>
+      <ul class="mt-8 divide-y divide-border">
+        {
+          rest.map((article) => (
+            <li>
+              <a
+                href={`/blog/${article.slug}`}
+                class="group grid gap-4 py-8 sm:grid-cols-12 sm:gap-8"
+              >
+                <p class="font-mono text-xs uppercase tracking-widest text-muted-foreground sm:col-span-2">
+                  {formatDate(article.publishedAt)}
+                </p>
+                <div class="sm:col-span-7">
+                  <h3 class="font-display text-xl tracking-tight transition-colors group-hover:text-accent">
+                    {article.title}
+                  </h3>
+                  <p class="mt-2 text-[15px] leading-relaxed text-muted-foreground">
+                    {article.excerpt}
+                  </p>
+                </div>
+                <p class="text-sm text-muted-foreground sm:col-span-3 sm:text-right">
+                  {article.readingMinutes} min · {article.author}
+                </p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

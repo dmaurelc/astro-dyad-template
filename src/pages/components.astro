@@ -1,0 +1,146 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout
+  title="Components — Astro Template"
+  description="A showcase of the design system primitives."
+>
+  <Header />
+
+  <main id="main" class="mx-auto max-w-5xl px-6 pb-24 pt-16 sm:px-8 sm:pt-24">
+    <header class="rise mb-16">
+      <p class="eyebrow">Style guide</p>
+      <h1
+        class="mt-6 font-display text-[clamp(2.25rem,6vw,4.5rem)] leading-[1.02] tracking-[-0.03em]"
+      >
+        Components.
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg text-muted-foreground">
+        The design primitives this template ships with. Copy, paste, recombine.
+      </p>
+    </header>
+
+    {/* ─── Typography ───────────────────────────────────── */}
+    <section class="rise border-t border-border py-12">
+      <p class="eyebrow">Typography</p>
+      <div class="mt-8 grid gap-10 sm:grid-cols-12">
+        <div class="sm:col-span-4">
+          <h2 class="font-display text-3xl tracking-tight">Fraunces</h2>
+          <p class="mt-2 text-sm text-muted-foreground">Variable serif, optical sizing</p>
+        </div>
+        <div class="space-y-4 sm:col-span-8">
+          <p class="font-display text-5xl tracking-tight">Display</p>
+          <p class="font-display text-3xl tracking-tight">Headline</p>
+          <p class="font-display text-xl tracking-tight">Title</p>
+          <p class="font-sans text-base leading-relaxed">
+            Body in Geist — the workhorse sans for paragraphs and UI labels.
+          </p>
+          <p class="font-mono text-sm uppercase tracking-widest text-muted-foreground">
+            Eyebrow · JetBrains Mono
+          </p>
+        </div>
+      </div>
+    </section>
+
+    {/* ─── Buttons ──────────────────────────────────────── */}
+    <section class="rise border-t border-border py-12">
+      <p class="eyebrow">Buttons</p>
+      <div class="mt-8 flex flex-wrap items-center gap-4">
+        <button
+          type="button"
+          class="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+        >
+          Primary
+        </button>
+        <button
+          type="button"
+          class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
+        >
+          Secondary
+        </button>
+        <button
+          type="button"
+          class="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
+        >
+          Accent
+        </button>
+        <button
+          type="button"
+          disabled
+          class="inline-flex cursor-not-allowed items-center gap-2 rounded-full border border-border bg-secondary px-5 py-2.5 text-sm font-medium text-muted-foreground opacity-60"
+        >
+          Disabled
+        </button>
+      </div>
+    </section>
+
+    {/* ─── Code block ───────────────────────────────────── */}
+    <section class="rise border-t border-border py-12">
+      <p class="eyebrow">Code</p>
+      <div class="mt-8 overflow-hidden rounded-lg border border-border bg-card">
+        <div class="flex items-center justify-between border-b border-border bg-secondary px-4 py-2">
+          <p class="font-mono text-xs text-muted-foreground">src/lib/articles.ts</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-muted-foreground">TypeScript</p>
+        </div>
+        <pre class="overflow-x-auto p-5 text-sm leading-relaxed"><code><span class="text-muted-foreground">export const</span> <span class="text-foreground">articles</span>: <span class="text-foreground">Article</span>[] = [{`{`}
+  {`{`}
+    slug: <span class="text-accent">"the-quiet-framework"</span>,
+    title: <span class="text-accent">"The quiet framework"</span>,
+    publishedAt: <span class="text-foreground">new</span> <span class="text-foreground">Date</span>(<span class="text-accent">"2026-06-21"</span>),
+  {`}`},
+];</code></pre>
+      </div>
+    </section>
+
+    {/* ─── Form controls ────────────────────────────────── */}
+    <section class="rise border-t border-border py-12">
+      <p class="eyebrow">Form controls</p>
+      <div class="mt-8 grid gap-6 sm:grid-cols-2">
+        <label class="block">
+          <span class="mb-2 block text-sm font-medium">Email address</span>
+          <input
+            type="email"
+            placeholder="you@example.com"
+            class="block w-full rounded-md border border-border bg-background px-3 py-2.5 text-base text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          />
+        </label>
+        <label class="block">
+          <span class="mb-2 block text-sm font-medium">Subject</span>
+          <select
+            class="block w-full rounded-md border border-border bg-background px-3 py-2.5 text-base text-foreground focus-visible:border-ring focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          >
+            <option>General inquiry</option>
+            <option>Bug report</option>
+            <option>Feature request</option>
+          </select>
+        </label>
+        <label class="block sm:col-span-2">
+          <span class="mb-2 block text-sm font-medium">Message</span>
+          <textarea
+            rows="4"
+            placeholder="Tell us what's on your mind."
+            class="block w-full resize-y rounded-md border border-border bg-background px-3 py-2.5 text-base text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          ></textarea>
+        </label>
+      </div>
+    </section>
+
+    {/* ─── Quote / callout ──────────────────────────────── */}
+    <section class="rise border-t border-border py-12">
+      <p class="eyebrow">Callout</p>
+      <blockquote class="mt-8 border-l-2 border-accent pl-6">
+        <p class="font-display text-2xl leading-snug tracking-tight">
+          Use one accent color. Make it count.
+        </p>
+        <footer class="mt-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+          — Design rule #1
+        </footer>
+      </blockquote>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

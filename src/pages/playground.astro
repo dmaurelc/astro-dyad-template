@@ -1,0 +1,161 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+const islands = [
+  {
+    name: "client:load",
+    description: "Hydrates immediately on page load.",
+    use: "Above-the-fold interactive UI.",
+  },
+  {
+    name: "client:idle",
+    description: "Hydrates during the browser's idle callback.",
+    use: "Non-critical widgets, deferred analytics.",
+  },
+  {
+    name: "client:visible",
+    description: "Hydrates when scrolled into view via IntersectionObserver.",
+    use: "Below-the-fold content, comments, related items.",
+  },
+  {
+    name: "client:media",
+    description: "Hydrates when a media query matches.",
+    use: "Mobile-only drawers, responsive behaviors.",
+  },
+];
+
+const currentIsland = islands[0];
+---
+
+<Layout
+  title="Playground — Astro Template"
+  description="A live demo of Astro's island architecture."
+>
+  <Header />
+
+  <main id="main" class="mx-auto max-w-5xl px-6 pb-24 pt-16 sm:px-8 sm:pt-24">
+    <header class="rise mb-16">
+      <p class="eyebrow">Playground</p>
+      <h1
+        class="mt-6 font-display text-[clamp(2.25rem,6vw,4.5rem)] leading-[1.02] tracking-[-0.03em]"
+      >
+        Islands, in motion.
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg text-muted-foreground">
+        Everything below the headline is static HTML. The counter is the only
+        island that ships JavaScript. Hover the rest — nothing responds. That's
+        the point.
+      </p>
+    </header>
+
+    {/* Live island — the only interactive thing on the page */}
+    <section class="rise rounded-2xl border border-border bg-card p-8 sm:p-12">
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p class="eyebrow">Live island</p>
+          <h2 class="mt-3 font-display text-3xl tracking-tight">
+            A counter, and only a counter.
+          </h2>
+        </div>
+        <span
+          class="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 font-mono text-xs uppercase tracking-widest text-accent"
+        >
+          <span class="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-accent"></span>
+          Hydrated
+        </span>
+      </div>
+
+      <div
+        data-counter
+        class="mt-10 grid gap-10 sm:grid-cols-12 sm:gap-12"
+        aria-live="polite"
+      >
+        <div class="sm:col-span-7">
+          <p
+            data-counter-value
+            class="font-display text-[clamp(5rem,18vw,11rem)] leading-none tracking-[-0.04em] tabular-nums"
+          >
+            0
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <button
+              type="button"
+              data-counter-dec
+              class="inline-flex h-11 min-w-11 items-center justify-center rounded-full border border-border bg-background px-5 text-lg font-medium transition-colors hover:bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              aria-label="Decrement"
+            >
+              −
+            </button>
+            <button
+              type="button"
+              data-counter-inc
+              class="inline-flex h-11 min-w-11 items-center justify-center rounded-full bg-foreground px-6 text-lg font-medium text-background transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            >
+              +
+            </button>
+            <button
+              type="button"
+              data-counter-reset
+              class="inline-flex h-11 items-center justify-center rounded-full px-4 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <aside class="border-t border-border pt-6 sm:col-span-4 sm:col-start-9 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0">
+          <p class="eyebrow">Recent values</p>
+          <p
+            data-counter-history
+            class="mt-4 break-all font-mono text-sm leading-relaxed text-muted-foreground"
+          >
+            —
+          </p>
+          <p class="mt-6 text-xs leading-relaxed text-muted-foreground">
+            Persisted to localStorage. Survives a refresh, cleared when you reset.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    {/* Reference table — static, no JS */}
+    <section class="rise mt-20">
+      <h2 class="font-display text-3xl tracking-tight">
+        The four hydration directives.
+      </h2>
+      <p class="mt-2 max-w-xl text-muted-foreground">
+        Each directive answers the same question differently: <em>when</em> should
+        this island become interactive?
+      </p>
+
+      <ul class="mt-10 divide-y divide-border border-y border-border">
+        {
+          islands.map((island, i) => (
+            <li class="grid gap-2 py-6 sm:grid-cols-12 sm:gap-8 sm:py-8">
+              <p class="font-mono text-xs uppercase tracking-widest text-muted-foreground sm:col-span-1">
+                {String(i + 1).padStart(2, "0")}
+              </p>
+              <p class="font-mono text-sm sm:col-span-3">{island.name}</p>
+              <div class="sm:col-span-8">
+                <p class="text-[15px] leading-relaxed text-foreground/90">
+                  {island.description}
+                </p>
+                <p class="mt-2 text-sm text-muted-foreground">
+                  Best for: {island.use}
+                </p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+
+  <Footer />
+
+  <script>
+    import "../components/counter";
+  </script>
+</Layout>

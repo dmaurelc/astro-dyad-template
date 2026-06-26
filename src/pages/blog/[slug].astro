@@ -1,0 +1,119 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { articles, getArticleBySlug } from "../../lib/articles";
+import { formatDate } from "../../lib/utils";
+
+export function getStaticPaths() {
+  return articles.map((article) => ({
+    params: { slug: article.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const article = slug ? getArticleBySlug(slug) : undefined;
+
+if (!article) {
+  return Astro.redirect("/404");
+}
+
+// Find next and previous articles by date
+const sorted = [...articles].sort(
+  (a, b) => a.publishedAt.getTime() - b.publishedAt.getTime()
+);
+const idx = sorted.findIndex((a) => a.slug === article.slug);
+const prev = idx > 0 ? sorted[idx - 1] : undefined;
+const next = idx < sorted.length - 1 ? sorted[idx + 1] : undefined;
+
+const paragraphs = article.body.split("\n\n");
+---
+
+<Layout title={`${article.title} — Astro Template`} description={article.excerpt}>
+  <Header />
+
+  <main id="main" class="mx-auto max-w-3xl px-6 pb-24 pt-12 sm:px-8 sm:pt-16">
+    <a
+      href="/blog"
+      class="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+    >
+      <span aria-hidden="true">←</span>
+      Back to journal
+    </a>
+
+    <article class="rise mt-10">
+      <header class="pb-10">
+        <p class="eyebrow">{article.tags.join(" · ")}</p>
+        <h1
+          class="mt-6 font-display text-[clamp(2rem,5.5vw,4rem)] leading-[1.05] tracking-[-0.025em]"
+        >
+          {article.title}
+        </h1>
+        <p class="mt-6 text-lg leading-relaxed text-muted-foreground">
+          {article.excerpt}
+        </p>
+
+        <dl class="mt-8 flex flex-wrap gap-x-8 gap-y-3 border-y border-border py-5 text-sm">
+          <div class="flex gap-2">
+            <dt class="text-muted-foreground">By</dt>
+            <dd>{article.author}</dd>
+          </div>
+          <div class="flex gap-2">
+            <dt class="text-muted-foreground">Published</dt>
+            <dd>{formatDate(article.publishedAt)}</dd>
+          </div>
+          <div class="flex gap-2">
+            <dt class="text-muted-foreground">Reading time</dt>
+            <dd>{article.readingMinutes} min</dd>
+          </div>
+        </dl>
+      </header>
+
+      <div class="space-y-6 text-[17px] leading-[1.75] text-foreground/90">
+        {paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+
+      {/* End-of-article marker — the typographic pilcrow */}
+      <p class="mt-12 text-center font-display text-3xl text-accent">¶</p>
+    </article>
+
+    {/* Adjacent article navigation — full-bleed hairlines */}
+    <nav
+      aria-label="Article navigation"
+      class="mt-20 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2"
+    >
+      {
+        prev ? (
+          <a
+            href={`/blog/${prev.slug}`}
+            class="group flex flex-col gap-2 bg-background p-6 transition-colors hover:bg-secondary"
+          >
+            <p class="eyebrow">Previous</p>
+            <p class="font-display text-lg tracking-tight transition-colors group-hover:text-accent">
+              {prev.title}
+            </p>
+          </a>
+        ) : (
+          <div class="bg-background p-6" />
+        )
+      }
+      {
+        next ? (
+          <a
+            href={`/blog/${next.slug}`}
+            class="group flex flex-col gap-2 bg-background p-6 text-right transition-colors hover:bg-secondary"
+          >
+            <p class="eyebrow">Next</p>
+            <p class="font-display text-lg tracking-tight transition-colors group-hover:text-accent">
+              {next.title}
+            </p>
+          </a>
+        ) : (
+          <div class="bg-background p-6" />
+        )
+      }
+    </nav>
+  </main>
+
+  <Footer />
+</Layout>
