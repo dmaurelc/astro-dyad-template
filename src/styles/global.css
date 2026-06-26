@@ -1,58 +1,167 @@
+/* ============================================================
+   Astro Template — Editorial design system
+   Type: Fraunces (display serif, variable) + Geist (body) + JetBrains Mono (eyebrow)
+   Palette: warm off-white + ink + a single terracotta accent
+   ============================================================ */
+
 @import "tailwindcss";
 
 @theme {
-  --color-background: oklch(1 0 0);
-  --color-foreground: oklch(0.145 0 0);
-  --color-primary: oklch(0.145 0 0);
-  --color-primary-foreground: oklch(0.985 0 0);
-  --color-secondary: oklch(0.965 0 0);
-  --color-secondary-foreground: oklch(0.145 0 0);
-  --color-muted: oklch(0.965 0 0);
-  --color-muted-foreground: oklch(0.556 0 0);
-  --color-accent: oklch(0.965 0 0);
-  --color-accent-foreground: oklch(0.145 0 0);
-  --color-destructive: oklch(0.577 0.245 27.325);
-  --color-destructive-foreground: oklch(0.985 0 0);
-  --color-card: oklch(1 0 0);
-  --color-card-foreground: oklch(0.145 0 0);
-  --color-popover: oklch(1 0 0);
-  --color-popover-foreground: oklch(0.145 0 0);
-  --color-border: oklch(0.922 0 0);
-  --color-input: oklch(0.922 0 0);
-  --color-ring: oklch(0.145 0 0);
-  --radius: 0.5rem;
+  /* Editorial palette — single accent, no purple/blue AI gradient */
+  --color-background: oklch(0.985 0.005 80);       /* warm off-white #FDFBF7 */
+  --color-foreground: oklch(0.18 0.01 60);         /* ink #1C1A17 */
+  --color-primary: oklch(0.18 0.01 60);            /* ink */
+  --color-primary-foreground: oklch(0.985 0.005 80);
+  --color-secondary: oklch(0.95 0.008 70);        /* warm cream */
+  --color-secondary-foreground: oklch(0.18 0.01 60);
+  --color-muted: oklch(0.95 0.008 70);
+  --color-muted-foreground: oklch(0.45 0.01 60);   /* warm gray */
+  --color-accent: oklch(0.62 0.16 35);             /* terracotta — single accent */
+  --color-accent-foreground: oklch(0.985 0.005 80);
+  --color-destructive: oklch(0.55 0.20 27);
+  --color-destructive-foreground: oklch(0.985 0.005 80);
+  --color-card: oklch(0.985 0.005 80);
+  --color-card-foreground: oklch(0.18 0.01 60);
+  --color-popover: oklch(0.985 0.005 80);
+  --color-popover-foreground: oklch(0.18 0.01 60);
+  --color-border: oklch(0.88 0.01 70);             /* warm hairline */
+  --color-input: oklch(0.88 0.01 70);
+  --color-ring: oklch(0.62 0.16 35);               /* focus ring uses accent */
+
+  /* Editorial type scale */
+  --font-display: "Fraunces", "Iowan Old Style", "Apple Garamond", Georgia, serif;
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Spacing rhythm — 4pt base */
+  --radius-sm: 0.25rem;
+  --radius: 0.375rem;
+  --radius-lg: 0.625rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: oklch(0.145 0 0);
-    --color-foreground: oklch(0.985 0 0);
-    --color-primary: oklch(0.985 0 0);
-    --color-primary-foreground: oklch(0.145 0 0);
-    --color-secondary: oklch(0.269 0 0);
-    --color-secondary-foreground: oklch(0.985 0 0);
-    --color-muted: oklch(0.269 0 0);
-    --color-muted-foreground: oklch(0.708 0 0);
-    --color-accent: oklch(0.269 0 0);
-    --color-accent-foreground: oklch(0.985 0 0);
-    --color-destructive: oklch(0.577 0.245 27.325);
-    --color-destructive-foreground: oklch(0.985 0 0);
-    --color-card: oklch(0.145 0 0);
-    --color-card-foreground: oklch(0.985 0 0);
-    --color-popover: oklch(0.145 0 0);
-    --color-popover-foreground: oklch(0.985 0 0);
-    --color-border: oklch(0.269 0 0);
-    --color-input: oklch(0.269 0 0);
-    --color-ring: oklch(0.556 0 0);
-  }
+/* Dark mode — activated by `.dark` class on <html>, set via inline pre-paint script */
+@custom-variant dark (&:where(.dark, .dark *));
+
+.dark {
+  --color-background: oklch(0.14 0.008 60);         /* deep warm black #1A1816 */
+  --color-foreground: oklch(0.96 0.005 80);
+  --color-primary: oklch(0.96 0.005 80);
+  --color-primary-foreground: oklch(0.14 0.008 60);
+  --color-secondary: oklch(0.20 0.008 60);
+  --color-secondary-foreground: oklch(0.96 0.005 80);
+  --color-muted: oklch(0.20 0.008 60);
+  --color-muted-foreground: oklch(0.65 0.01 60);
+  --color-accent: oklch(0.72 0.14 40);              /* warmer terracotta for dark */
+  --color-accent-foreground: oklch(0.14 0.008 60);
+  --color-destructive: oklch(0.55 0.20 27);
+  --color-destructive-foreground: oklch(0.96 0.005 80);
+  --color-card: oklch(0.18 0.008 60);
+  --color-card-foreground: oklch(0.96 0.005 80);
+  --color-popover: oklch(0.18 0.008 60);
+  --color-popover-foreground: oklch(0.96 0.005 80);
+  --color-border: oklch(0.28 0.008 60);
+  --color-input: oklch(0.28 0.008 60);
+  --color-ring: oklch(0.72 0.14 40);
 }
 
+/* Base — defaults applied before component styles */
 * {
   border-color: var(--color-border);
+}
+
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "ss01", "cv01", "cv11";
 }
 
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.65;
+  letter-spacing: -0.005em;
+}
+
+/* Display headings — variable serif, optical sizing */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  font-variation-settings: "opsz" 144, "SOFT" 50;
+  text-wrap: balance;
+}
+
+/* Eyebrow labels — JetBrains Mono, all-caps with wide tracking */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+
+code, pre, kbd {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+/* Subtle film grain — fixed pseudo-element, never on scrolling containers */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.9'/></svg>");
+  mix-blend-mode: multiply;
+}
+
+.dark body::before {
+  opacity: 0.04;
+  mix-blend-mode: screen;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-accent-foreground);
+}
+
+/* Smooth scroll, respect reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* Staggered fade-in on first paint */
+@keyframes editorial-rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.rise > * {
+  animation: editorial-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.rise > *:nth-child(1) { animation-delay: 0ms; }
+.rise > *:nth-child(2) { animation-delay: 70ms; }
+.rise > *:nth-child(3) { animation-delay: 140ms; }
+.rise > *:nth-child(4) { animation-delay: 210ms; }
+.rise > *:nth-child(5) { animation-delay: 280ms; }
+.rise > *:nth-child(6) { animation-delay: 350ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rise > * { animation: none; }
+}
+
+/* Tactile press feedback for buttons */
+button, a[role="button"] {
+  transition: transform 160ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+button:active, a[role="button"]:active {
+  transform: translateY(1px) scale(0.99);
 }

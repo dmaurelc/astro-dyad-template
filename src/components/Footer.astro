@@ -1,0 +1,110 @@
+---
+/**
+ * Site footer — reusable component, mirrors Header navigation.
+ * Uses the same link list so the mobile menu, desktop nav, and footer stay in sync.
+ */
+import ThemeToggle from "./ThemeToggle.astro";
+import { formatDate } from "../lib/utils";
+
+export interface Props {
+  /** Optional override; defaults to the current template name */
+  brand?: string;
+}
+
+const { brand = "Astro Template" } = Astro.props;
+const year = new Date().getFullYear();
+const pathname = Astro.url.pathname;
+
+const sections = [
+  {
+    heading: "Site",
+    links: [
+      { href: "/", label: "Index" },
+      { href: "/about", label: "About" },
+      { href: "/blog", label: "Journal" },
+    ],
+  },
+  {
+    heading: "Demos",
+    links: [
+      { href: "/components", label: "Components" },
+      { href: "/playground", label: "Playground" },
+      { href: "/404", label: "404" },
+    ],
+  },
+  {
+    heading: "External",
+    links: [
+      { href: "https://astro.build/docs", label: "Astro docs" },
+      { href: "https://tailwindcss.com/docs", label: "Tailwind v4" },
+      { href: "https://github.com/dyad-sh/dyad", label: "Dyad on GitHub" },
+    ],
+  },
+];
+---
+
+<footer class="mt-32 border-t border-border">
+  <div
+    class="mx-auto grid max-w-6xl gap-10 px-6 py-14 sm:grid-cols-12 sm:gap-12 sm:px-8 sm:py-16"
+  >
+    <div class="sm:col-span-5">
+      <a
+        href="/"
+        class="font-display text-2xl tracking-tight text-foreground"
+      >
+        {brand}<span class="text-accent">.</span>
+      </a>
+      <p class="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
+        A quiet Astro starter with an editorial type system, dark mode, and
+        six demo routes. Built on Tailwind v4, ships zero JavaScript by
+        default.
+      </p>
+      <div class="mt-6 flex items-center gap-2">
+        <ThemeToggle />
+        <span class="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+          {formatDate(new Date())}
+        </span>
+      </div>
+    </div>
+
+    {
+      sections.map((section) => (
+        <nav
+          aria-label={section.heading}
+          class="sm:col-span-2 sm:col-start-auto"
+        >
+          <p class="eyebrow">{section.heading}</p>
+          <ul class="mt-4 space-y-2 text-sm">
+            {section.links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class:list={[
+                    "transition-colors",
+                    pathname === link.href ||
+                    (link.href !== "/" && pathname.startsWith(`${link.href}/`))
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground",
+                  ]}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ))
+    }
+  </div>
+
+  <div class="border-t border-border">
+    <div
+      class="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-8"
+    >
+      <p>© {year} {brand}. Demo content — not for production use.</p>
+      <p class="font-mono uppercase tracking-widest">
+        Astro 7 · Tailwind v4 · TypeScript 6
+      </p>
+    </div>
+  </div>
+</footer>
